@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Silicon Valley Quotes</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      width: 100%;
+      font-family: 'Roboto', sans-serif;
+      background: #fd494a;
+      color: #030001;
+      text-align: center;
+    }
+
+    .wrapper {
+      margin: 2em;
+      display: inline-block;
+      padding: 1em;
+      text-align: left;
+      font-size: 2em;
+      line-height: 1.5em;
+    }
+
+    .person {
+      color: #fdfefe;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div id="quote"></div>
+  </div>
+  <script>
+    fetch('/quote').then(resp => resp.text()).then(quote => {
+      quote = quote.replace(/\\n/g, '<br />');
+      quote = quote.replace(/((\w|\s)+:)/g, '<span class="person">$1</span>');
+      document.getElementById('quote').innerHTML = quote;
+    });
+  </script>
+</body>
+</html>
