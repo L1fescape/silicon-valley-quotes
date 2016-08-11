@@ -7,7 +7,7 @@ import (
 )
 
 func ReadFile(fileName string) []string {
-  lines := make([]string, 83) // todo don't hard-code the file length
+  lines := make([]string, 0, 50)
 
   file, err := os.Open(fileName)
   if err != nil {
@@ -16,10 +16,8 @@ func ReadFile(fileName string) []string {
   defer file.Close()
 
   scanner := bufio.NewScanner(file)
-  counter := 0
   for scanner.Scan() {
-    lines[counter] = scanner.Text()
-    counter++
+    lines = append(lines, scanner.Text())
   }
 
   if err := scanner.Err(); err != nil {
