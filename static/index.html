@@ -13,6 +13,9 @@
       color: #030001;
       text-align: center;
       cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
     }
 
     .wrapper {
@@ -22,7 +25,13 @@
       text-align: left;
       font-size: 2em;
       line-height: 1.5em;
+    }
+
+    #quote {
       cursor: text;
+      user-select: text;
+      -webkit-user-select: text;
+      -moz-user-select: text;
     }
 
     .person {
@@ -35,14 +44,34 @@
     <div id="quote"></div>
   </div>
   <script>
+    function getSelectedText() {
+      var text = "";
+      if (typeof window.getSelection != 'undefined') {
+          text = window.getSelection().toString();
+      } else if (
+        typeof document.selection != 'undefined' &&
+        document.selection.type == 'Text'
+      ) {
+          text = document.selection.createRange().text;
+      }
+      return text;
+    }
+
     function getQuote() {
+      // if text is selected, don't fetch a new quote
+      if (getSelectedText()) {
+        return;
+      }
+
       fetch('/quote').then(resp => resp.text()).then(quote => {
         quote = quote.replace(/\\n/g, '<br />');
         quote = quote.replace(/((\w|\s)+:)/g, '<span class="person">$1</span>');
         document.getElementById('quote').innerHTML = quote;
       });
     }
+
     document.body.onclick = getQuote;
+
     getQuote();
   </script>
 </body>
