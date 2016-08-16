@@ -33,11 +33,15 @@
     <div id="quote"></div>
   </div>
   <script>
-    fetch('/quote').then(resp => resp.text()).then(quote => {
-      quote = quote.replace(/\\n/g, '<br />');
-      quote = quote.replace(/((\w|\s)+:)/g, '<span class="person">$1</span>');
-      document.getElementById('quote').innerHTML = quote;
-    });
+    function getQuote() {
+      fetch('/quote').then(resp => resp.text()).then(quote => {
+        quote = quote.replace(/\\n/g, '<br />');
+        quote = quote.replace(/((\w|\s)+:)/g, '<span class="person">$1</span>');
+        document.getElementById('quote').innerHTML = quote;
+      });
+    }
+    document.body.onclick = getQuote;
+    getQuote();
   </script>
 </body>
 </html>
